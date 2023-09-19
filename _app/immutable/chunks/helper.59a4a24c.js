@@ -1,1 +1,0 @@
-function s(n){return n!=null?parseInt(""+Math.random()*n.length):-1}function u(n,r){const o=[],t=[];do{const e=s(n);o.includes(e)||(o.push(e),t.push(n[e]))}while(t.length<r);return t}export{u as a,s as g};
