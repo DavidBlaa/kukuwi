@@ -27,6 +27,7 @@ import { faPlay } from '@fortawesome/free-solid-svg-icons'
 	let duration = 0;
 	let paused = true;
 
+
 	if(index>-1){ audiourl = audiourl + ""+audios[index]}
 	
 

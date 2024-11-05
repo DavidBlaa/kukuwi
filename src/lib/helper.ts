@@ -29,14 +29,3 @@ export function getRandomIndex(list:any[])
 				return tmp
 	}
 
-	export const goTo = async (url, intern = true) => {
-		if (intern == true) {
-			// go to inside bexis2
-			if (window != null && base != null && url != null) {
-				window.open(base + url, '_self')?.focus();
-			}
-		} // go to a external page
-		else {
-			window.open(url, '_blank')?.focus();
-		}
-	};
