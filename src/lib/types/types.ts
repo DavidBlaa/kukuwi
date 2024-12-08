@@ -33,3 +33,9 @@ export type pattern_type = {
 	instrument_type: "drum" | "Bass" | "Piano";
 	n_instruments: number
 }
+
+export type Highscore_type = {
+	name: string
+	points: number
+	highlight:boolean
+}
