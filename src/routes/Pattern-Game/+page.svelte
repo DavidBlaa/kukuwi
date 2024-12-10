@@ -33,10 +33,10 @@
 	const loadMidiFile = async (midi_path: string, index: number) => {
 
 
-		const response = await fetch(base+"/midis/"+midi_path);
+		const response = await fetch(base + '/midis/' + midi_path);
 		const arrayBuffer = await response.arrayBuffer();
 		const uintArr = new Uint8Array(arrayBuffer);
-		console.log(uintArr)
+		console.log(uintArr);
 		const parsed = midiManager.parseMidi(uintArr);
 		const tick_delta: number = 24;
 		const events: { [key: number]: number[] } = {};
@@ -116,13 +116,11 @@
 		});
 
 
-
-
 	}
 
 	function handleGuessButtonClick() {
 
-		game_won = correct_index == selected_index
+		game_won = correct_index == selected_index;
 		time_running = false;
 		track_paused = true;
 		game_ended = true;
@@ -134,7 +132,7 @@
 
 	function handle_next_repeat_button(): void {
 		if (game_won) {
-			goto(base+"/")
+			goto(base + '/');
 		} else {
 			tries++;
 			time_running = true;
@@ -199,7 +197,7 @@
             p-3
             text-3xl
         "
-				onmousedown={() => handleGuessButtonClick()}
+							onmousedown={() => handleGuessButtonClick()}
 			>Raten
 			</button>
 		</div>
