@@ -9,6 +9,7 @@
 	import MusicControl from '$lib/components/MusicControl.svelte';
 	import GIF from '$lib/components/GIF.svelte';
 	import { patternLevels } from '$lib/data/patternLevels';
+	import Button3d from './Button3d.svelte';
 
 	let {
 		difficulty,
@@ -71,7 +72,6 @@
 	onMount(() => {
 		const instrument = 'drum'; // TODO: Choose dynamicly if other instruments are added
 		const rows = patternLevels[difficulty - 1].rows;
-
 		const selectedPatterns: pattern_type[] = getRandomSubset(
 			pattern_list.filter((p) => p.instrument_type === instrument && p.n_instruments === rows),
 			3
@@ -154,28 +154,14 @@
 					{volume}
 				/>
 			</div>
-			<button
-				class="
-            		mt-3
-            		flex
-           			h-fit
-					w-10/12
-					cursor-pointer
-					select-none
-					flex-col
-					justify-center
-					rounded-lg
-					border-[1px]
-					bg-amber-500 p-3
-					text-3xl
-					transition-all duration-150 [box-shadow:0_8px_0_0_#cf860a,0_13px_0_0_#1b70f841]
-					active:translate-y-2
-					active:border-b-[0px]
-					active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
-				"
+			<Button3d
+				style="mt-3 text-3xl"
 				onmousedown={() => handleGuessButtonClick()}
-				>Raten
-			</button>
+				bgFront="bg-amber-500"
+				bgBack="bg-amber-700"
+			>
+				<p class="px-6 py-3">Raten</p>
+			</Button3d>
 		</div>
 	</div>
 	{#if roundEnded}

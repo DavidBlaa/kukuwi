@@ -1,64 +1,39 @@
 <script>
-	import { goto } from "$app/navigation";
-	import {base} from '$app/paths';
-//Für Weiterleitung auf Start- bzw. Übungsseite
-	function goToUebung(){
-		goto(base+'/uebung') 
-	}
-
-	function goToStart(){
-		goto(base+'/raten')
-	}
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
+	import MenuCard from '$lib/components/MenuCard.svelte';
 </script>
 
-<main>
-	<!-- Aufteilung des Bildschirms in zwei gleichgroße Hälften vertikal-->
-	<div class="flex flex-col h-screen bg-blue-200">
-		<!--Obere Hälfte mit dem KukuWi Logo-->
-		<div class="h-3/5 flex items-center justify-center">
-			<img src={base+"/images/logo.png"} alt="logo" class="max-w-full max-h-full object-contain">
-		</div> 
-	    <!-- Unter Hälfte mit den Buttons -->
-	    <div class="h-2/5 flex">
-	        <!--Unter Hälfte wird nochmal geteilt für Trainings- und Übungsbutton-->
-				<div class="w-1/2 flex items-center justify-center">
-					<div class="flex flex-col items-center rounded-2xl">
-					  <button class="flex flex-col items-center justify-center
-						border-b-gray-600
-                     border-l-gray-200
-                     border-t-gray-400
-                     border-r-gray-400
-					  border-b-[20px]
-                      border-l-[10px]
-                      border-r-[10px]
-                      border-t-[10px]
-                      shadow-2xl [rotate-y-20deg]
-					  bg-gray-300"
-					  on:click={goToUebung}>
-					    <img src={base+"/images/Hut_2.png"} alt="Hut" class="w-20 h-20 object-cover">
-					     <span class="text-6xl font-bold">Üben</span>
-					   </button>
-					</div>
-				</div>
-				<div class="w-1/2 flex items-center justify-center">
-					<div class="flex flex-col items-center rounded-2xl">
-						<button class="flex flex-col items-center justify-center
-						 border-b-gray-600
-                         border-l-gray-200
-                         border-t-gray-400
-                         border-r-gray-400
-					       border-b-[20px]
-                           border-l-[10px]
-                           border-r-[10px]
-                           border-t-[10px]
-                           shadow-2xl [rotate-y-20deg]
-						   bg-gray-300"
-						   on:click={goToStart}>
-                           <img src={base+"/images/Pokal.png"} alt="Pokal" class="w-20 h-20">
-						   <span class="text-6xl font-bold">Start</span>
-							</button>
-						
-					</div>
-				</div>
-	    </div>
+<main class="h-screen">
+	<div class="flex h-full flex-col">
+		<!-- Obere Hälfte mit dem KukuWi Logo -->
+		<div class="flex h-1/2 items-center justify-center">
+			<img src={base + '/images/logo.png'} alt="logo" class="max-h-md max-w-md object-contain" />
+		</div>
+		<!-- Untere Hälfte mit den Buttons -->
+		<div class="flex h-1/2 items-center justify-center">
+			<div class="flex w-1/2 justify-center">
+				<MenuCard
+					text="ÜBEN"
+					image={{ src: '/images/Hut_2.png', alt: 'Hut' }}
+					bgFront="bg-kukuwi-red"
+					bgBack="bg-kukuwi-red-dark"
+					onclick={() => goto(`${base}/uebung`)}
+					class="h-48 w-48 sm:h-56 sm:w-56 md:h-64 md:w-64 lg:h-72 lg:w-72 xl:h-80 xl:w-80"
+					textClass="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-8xl"
+				/>
+			</div>
+			<div class="flex w-1/2 justify-center">
+				<MenuCard
+					text="START"
+					image={{ src: '/images/Pokal.png', alt: 'Pokal' }}
+					bgFront="bg-kukuwi-blue"
+					bgBack="bg-kukuwi-blue-dark"
+					onclick={() => goto(`${base}/raten`)}
+					class="h-48 w-48 sm:h-56 sm:w-56 md:h-64 md:w-64 lg:h-72 lg:w-72 xl:h-80 xl:w-80"
+					textClass="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-8xl"
+				/>
+			</div>
+		</div>
+	</div>
 </main>

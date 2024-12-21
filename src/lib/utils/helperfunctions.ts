@@ -1,6 +1,8 @@
 import { failGifs, successGifs } from '$lib/data/gifs';
 import type { Instrument, KlangQuizInstrument } from '$lib/types/types';
 import { instruments as instrumentsJSON } from '../data/instruments';
+import { goto } from '$app/navigation';
+import { base } from '$app/paths';
 
 export function getKlangQuizInstruments(quantity: number, sameCategory?: boolean) {
 	let instruments: Instrument[] = [];

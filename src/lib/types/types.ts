@@ -48,3 +48,8 @@ export type Highscore_type = {
 	points: number;
 	highlight: boolean;
 };
+
+export type GenreLevel = {
+	difficulty: string;
+	pairs: number;
+};

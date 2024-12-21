@@ -63,6 +63,7 @@
 	function handleGIFButtonClick(): void {
 		const roundScore = roundWon ? 1000 : 0; // TODO: Implement score calculate function
 		handleNextRound(roundScore);
+		roundEnded = false;
 	}
 
 	function start() {

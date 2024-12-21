@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import PatternGame from '$lib/components/PatternGame.svelte';
+	import GuessingGame from '$lib/components/GuessingGame.svelte';
 	import { error } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
 
@@ -28,7 +28,7 @@
 {#if difficulty}
 	<main class="h-screen w-screen bg-blue-200 p-5">
 		{#key round}
-			<PatternGame
+			<GuessingGame
 				difficulty={parseInt(difficulty)}
 				{handleNextRound}
 				{volume}

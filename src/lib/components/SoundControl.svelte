@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Button3d from './Button3d.svelte';
+
 	interface ComponentProps {
 		volume: number;
 	}
@@ -42,33 +44,25 @@
 			></div>
 		{/each}
 	</div>
-	<button
-		class="aspect-square w-5/6 cursor-pointer select-none rounded-full border-[1px] bg-amber-500
-    transition-all duration-150
-    [box-shadow:0_8px_0_0_#b07209,0_13px_0_0_#1b70f841]
-    active:translate-y-2 active:border-b-[0px] active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
-    lg:w-3/5
-    "
+	<Button3d
+		bgFront="bg-amber-500"
+		bgBack="bg-amber-700"
+		onmouseup={() => {}}
 		onclick={() => handleVolumeButtons(true)}
+		style="rounded-full size-16 mb-3"
+		padding="relative size-16 rounded-full"
 	>
-		<span
-			class="flex h-full flex-col items-center justify-center pb-3 text-6xl font-bold text-white"
-			>+</span
-		>
-	</button>
+		<p class="absolute inset-x-0 bottom-2 text-6xl font-bold text-white">+</p>
+	</Button3d>
 
-	<button
-		class="aspect-square mt-5 w-5/6 cursor-pointer select-none rounded-full border-[1px] bg-amber-500
-    transition-all duration-150
-    [box-shadow:0_8px_0_0_#b07209,0_13px_0_0_#1b70f841]
-    active:translate-y-2 active:border-b-[0px] active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
-    lg:w-3/5
-    "
+	<Button3d
+		bgFront="bg-amber-500"
+		bgBack="bg-amber-700"
+		onmouseup={() => {}}
 		onclick={() => handleVolumeButtons(false)}
+		style="rounded-full size-16 mb-3"
+		padding="relative size-16 rounded-full"
 	>
-		<span
-			class="flex h-full flex-col items-center justify-center pb-3 text-6xl font-bold text-white"
-			>-</span
-		>
-	</button>
+		<p class="absolute inset-x-0 bottom-2 text-6xl font-bold text-white">-</p>
+	</Button3d>
 </div>

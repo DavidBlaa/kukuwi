@@ -3,6 +3,7 @@
 	import { Icon } from 'svelte-icons-pack';
 	import { FaSolidPlay } from 'svelte-icons-pack/fa';
 	import MidiBoardInformation from '$lib/components/MidiBoardInformation.svelte';
+	import Button3d from './Button3d.svelte';
 
 	let {
 		trackSource,
@@ -58,27 +59,15 @@
 		<MidiBoardInformation bind:time bind:repeats bind:tries></MidiBoardInformation>
 	</div>
 
-	<button
-		class="
-            flex
-            h-1/6
-            w-5/6
-            cursor-pointer
-            select-none
-            flex-col
-            justify-center
-            rounded-lg
-            border-[1px]
-            bg-blue-400 p-3
-            transition-all
-            duration-150 [box-shadow:0_8px_0_0_#477aba,0_13px_0_0_#1b70f841] active:translate-y-2
-            active:border-b-[0px]
-            active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
-        "
+	<Button3d
+		bgFront="bg-kukuwi-blue"
+		bgBack="bg-kukuwi-blue-dark"
+		padding="px-8 py-2"
+		style="mt-3"
 		onclick={() => handlePlayButton()}
 	>
-		<Icon size="100%" color="white" src={FaSolidPlay}></Icon>
-	</button>
+		<Icon src={FaSolidPlay} color="white" className="size-24" />
+	</Button3d>
 
 	<audio
 		src={trackSource}
