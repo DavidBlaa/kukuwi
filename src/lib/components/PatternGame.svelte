@@ -113,9 +113,23 @@
 	}
 
 	function handleGIFButtonClick(): void {
-		const roundScore = roundWon ? 1000 : 0; // TODO: Implement score calculate function
+		const roundScore = calculateScore();
 		handleNextRound(roundScore);
 		roundEnded = false;
+	}
+
+	function calculateScore(): number {
+		let score = 0;
+
+		if (roundWon) {
+			score += 10000;
+
+			score += Math.max(-236 * time + 8000, (2000 * 0.9) ^ time);
+
+			score += Math.max(-1234 * repeats + 5000, (2000 * 0.9) ^ repeats);
+		}
+
+		return score;
 	}
 
 	function start() {
