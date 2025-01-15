@@ -40,33 +40,42 @@
 	}
 </script>
 
-<div class="flex h-full w-full flex-col items-center justify-evenly">
-	<div class="h-52 w-52 max-lg:hidden">
+<div
+	class="fhd:w-72 wqhd:w-80 flex h-full w-24 flex-none flex-col items-center justify-around py-3 lg:w-28 lg:py-6 2xl:w-40"
+>
+	<div class="fhd:size-52 wqhd:size-72 size-16 lg:size-28 2xl:size-40">
 		<Vinyl spinning={!trackPaused}></Vinyl>
 	</div>
 	<div class="flex flex-row items-stretch justify-evenly">
 		<span
-			class="ml-1 h-fit w-full border-4 border-gray-500 bg-green-500 p-1 text-xl font-bold text-white"
-			>{formatTrackTime(trackCurrentTime)}</span
+			class="fhd:text-3xl fhd:px-4 fhd:py-2 fhd:border-4 ml-1 h-fit w-full border-2 border-gray-500 bg-green-500 px-1 py-[0.125rem] text-xs font-bold text-white lg:text-sm 2xl:text-xl"
 		>
+			{formatTrackTime(trackCurrentTime)}
+		</span>
 		<span
-			class="h-fit w-full border-4 border-gray-500 bg-green-500 p-1 text-xl font-bold text-white"
-			>{formatTrackTime(trackDuration)}</span
+			class="fhd:text-3xl fhd:px-4 fhd:py-2 fhd:border-4 h-fit w-full border-2 border-gray-500 bg-green-500 px-1 py-[0.125rem] text-xs font-bold text-white lg:text-sm 2xl:text-xl"
 		>
+			{formatTrackTime(trackDuration)}
+		</span>
 	</div>
 
 	<div>
-		<MidiBoardInformation bind:time bind:repeats bind:tries></MidiBoardInformation>
+		<MidiBoardInformation bind:time bind:repeats bind:tries />
 	</div>
 
 	<Button3d
 		bgFront="bg-kukuwi-blue"
 		bgBack="bg-kukuwi-blue-dark"
-		padding="px-8 py-2"
+		padding="px-4 wqhd:px-8 py-2"
 		style="mt-3"
+		translateY="translate-y-[-0.3rem] 2xl:translate-y-[-0.5rem]"
 		onclick={() => handlePlayButton()}
 	>
-		<Icon src={FaSolidPlay} color="white" className="size-24" />
+		<Icon
+			src={FaSolidPlay}
+			color="white"
+			className="fhd:w-32 fhd:h-28 2xl:w-24 2xl:h-14 lg:w-16 lg:h-10 w-8 h-5"
+		/>
 	</Button3d>
 
 	<audio
