@@ -28,7 +28,7 @@ export type KlangQuizLevel = {
 
 export type PatternLevel = {
 	difficulty: string;
-	rows: number;
+	instrument_type: 'Drum' | 'Bass' | 'Piano';
 };
 
 export type GameRound = {
@@ -39,8 +39,7 @@ export type GameRound = {
 export type pattern_type = {
 	midi_src: string;
 	audio_src: string;
-	instrument_type: 'drum' | 'Bass' | 'Piano';
-	n_instruments: number;
+	instrument_type: 'Drum' | 'Bass' | 'Piano';
 };
 
 export type Highscore_type = {
@@ -56,5 +55,5 @@ export type GenreLevel = {
 
 export type MemoryCard = {
 	genre: string;
-	audioPaths:string[]
+	audioPaths: string[]
 }
