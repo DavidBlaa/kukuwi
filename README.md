@@ -1,4 +1,4 @@
-# Instrument Rate Game
+# Instrumenten-Rate-Spiel
 
 
 ![KuKuWi](static/images/logo_name.png)
