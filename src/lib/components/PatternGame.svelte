@@ -62,7 +62,6 @@
 				}
 				events[event.noteNumber].push(timeDelta);
 			} else if (event.type === 'noteOff') {
-
 				events[event.noteNumber].push(timeDelta);
 			}
 		}
@@ -73,7 +72,6 @@
 
 		let len_min: number = 10000;
 		let maxStop: number = 0;
-
 
 		// get note start and length
 		for (const [, value] of Object.entries(events)) {
@@ -88,23 +86,18 @@
 			pianorolls.push(pianoRoll);
 		}
 
-
 		// calculate the tick-rate of track
 		let tickDelta: number = maxStop / 16;
 
 		const possibleTicks: number[] = [6, 12, 24, 48, 96];
 
 		if (!possibleTicks.includes(tickDelta)) {
-
 			for (let i = 0; i < possibleTicks.length; i++) {
-
 				if (tickDelta <= possibleTicks[i]) {
 					tickDelta = possibleTicks[i];
 					break;
 				}
-
 			}
-
 		}
 
 		//case if 3/4 notes are used
@@ -112,30 +105,24 @@
 			tickDelta = len_min;
 		}
 
-
 		// build array
 		pianorolls = pianorolls.reverse();
 
 		patterns = new Array(16 * instrumentCount).fill(false);
 
 		for (let i: number = 0; i < pianorolls.length; i++) {
-
 			for (let j = 0; j < pianorolls[i].length; j++) {
-
-				let start_index: number = (i * 16) + (pianorolls[i][j].start / tickDelta);
-				let end_index: number = start_index + (pianorolls[i][j].len / tickDelta);
+				let start_index: number = i * 16 + pianorolls[i][j].start / tickDelta;
+				let end_index: number = start_index + pianorolls[i][j].len / tickDelta;
 
 				for (let z = start_index; z < end_index; z++) {
-
 					patterns[z] = true;
-
 				}
 			}
 		}
 		maxPatternLength = Math.max(maxPatternLength, patterns.length);
 		allPatterns.push({ pattern: patterns, selected: false, index: index });
 	};
-
 
 	onMount(() => {
 		let instrument: string;
@@ -151,9 +138,7 @@
 			}
 			default:
 				instrument = 'Drum';
-
 		}
-
 
 		const selectedPatterns: pattern_type[] = getRandomSubset(
 			pattern_list.filter((p) => p.instrument_type === instrument),
@@ -167,7 +152,6 @@
 		for (const [index, p] of selectedPatterns.entries()) {
 			loadMidiFile(p.midi_src, index);
 		}
-
 
 		loaded = true;
 		start();
@@ -224,43 +208,41 @@
 	}
 </script>
 
-<div class="flex h-full w-full flex-col items-center justify-center bg-blue-300">
-	<div
-		class="bg-s h-11/12 border-12 ml-2 flex w-11/12 flex-row justify-evenly rounded-2xl border-8 bg-gray-600 p-5"
-	>
-		<div class="flex basis-9/12 flex-col items-center justify-evenly">
-			{#if loaded}
-				{#each allPatterns as p}
-					<div class="h-full w-full basis-1/6">
-						<Pattern
-							pattern_array={p.pattern}
-							bind:active={p.selected}
-							onmouseup={() => handlePatternClick(p.index)}
-						/>
-					</div>
-				{/each}
-			{/if}
+<div
+	class="flex size-full justify-between gap-4 rounded-2xl border-x-[7px] border-b-[14px] border-t-[7px] border-b-gray-600 border-l-gray-200 border-r-gray-400 border-t-gray-400 bg-[#d1d5db] p-3 shadow-2xl lg:border-x-[10px] lg:border-b-[20px] lg:border-t-[10px] lg:p-10"
+>
+	<div class="flex basis-9/12 flex-col items-center justify-evenly">
+		{#if loaded}
+			{#each allPatterns as p}
+				<div class="h-full w-full basis-1/6">
+					<Pattern
+						pattern_array={p.pattern}
+						bind:active={p.selected}
+						onmouseup={() => handlePatternClick(p.index)}
+					/>
+				</div>
+			{/each}
+		{/if}
+	</div>
+	<div class="flex basis-1/6 flex-col items-center">
+		<div class="h-5/6">
+			<MusicControl
+				bind:trackPaused
+				{repeats}
+				{time}
+				trackSource={base + '/audios/pattern_sounds/' + soundPath}
+				{tries}
+				{volume}
+			/>
 		</div>
-		<div class="flex basis-1/6 flex-col items-center">
-			<div class="h-5/6">
-				<MusicControl
-					bind:trackPaused
-					{repeats}
-					{time}
-					trackSource={base + '/audios/pattern_sounds/' + soundPath}
-					{tries}
-					{volume}
-				/>
-			</div>
-			<Button3d
-				bgBack="bg-amber-700"
-				bgFront="bg-amber-500"
-				onmousedown={() => handleGuessButtonClick()}
-				style="mt-3 text-3xl"
-			>
-				<p class="px-6 py-3">Raten</p>
-			</Button3d>
-		</div>
+		<Button3d
+			bgBack="bg-amber-700"
+			bgFront="bg-amber-500"
+			onmousedown={() => handleGuessButtonClick()}
+			style="mt-3 text-3xl"
+		>
+			<p class="px-6 py-3">Raten</p>
+		</Button3d>
 	</div>
 	{#if roundEnded}
 		<div class="absolute left-0 top-0">
@@ -275,6 +257,6 @@
 		</div>
 	{/if}
 </div>
-<div class="absolute left-3 top-0 m-2 mt-4">
+<div class="absolute left-6 top-0 m-3 mt-10">
 	<ResetButton></ResetButton>
 </div>
