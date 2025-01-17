@@ -30,7 +30,6 @@
 
 	let time = $state(0);
 	let timeRunning = $state(true);
-	let tries = $state(0);
 	let repeats = $state(0);
 
 	let usedInstruments = $state<KlangQuizInstrument[]>();
@@ -95,7 +94,7 @@
 	<div
 		class="flex size-full justify-between gap-4 rounded-2xl border-x-[7px] border-b-[14px] border-t-[7px] border-b-gray-600 border-l-gray-200 border-r-gray-400 border-t-gray-400 bg-[#d1d5db] p-3 shadow-2xl lg:border-x-[10px] lg:border-b-[20px] lg:border-t-[10px] lg:p-10"
 	>
-		<MusicControl {time} {trackSource} {volume} bind:trackPaused {tries} {repeats} />
+		<MusicControl {time} {trackSource} {volume} bind:trackPaused {repeats} />
 		<MidiBoardGrid
 			{volume}
 			{activeTileList}

@@ -37,7 +37,6 @@
 
 	let time: number = $state(0);
 	let timeRunning: boolean = $state(true);
-	let tries: number = $state(0);
 	let repeats: number = $state(0);
 	let maxPatternLength: number = 0;
 
@@ -62,7 +61,6 @@
 				}
 				events[event.noteNumber].push(timeDelta);
 			} else if (event.type === 'noteOff') {
-
 				events[event.noteNumber].push(timeDelta);
 			}
 		}
@@ -73,7 +71,6 @@
 
 		let len_min: number = 10000;
 		let maxStop: number = 0;
-
 
 		// get note start and length
 		for (const [, value] of Object.entries(events)) {
@@ -88,23 +85,18 @@
 			pianorolls.push(pianoRoll);
 		}
 
-
 		// calculate the tick-rate of track
 		let tickDelta: number = maxStop / 16;
 
 		const possibleTicks: number[] = [6, 12, 24, 48, 96];
 
 		if (!possibleTicks.includes(tickDelta)) {
-
 			for (let i = 0; i < possibleTicks.length; i++) {
-
 				if (tickDelta <= possibleTicks[i]) {
 					tickDelta = possibleTicks[i];
 					break;
 				}
-
 			}
-
 		}
 
 		//case if 3/4 notes are used
@@ -112,30 +104,24 @@
 			tickDelta = len_min;
 		}
 
-
 		// build array
 		pianorolls = pianorolls.reverse();
 
 		patterns = new Array(16 * instrumentCount).fill(false);
 
 		for (let i: number = 0; i < pianorolls.length; i++) {
-
 			for (let j = 0; j < pianorolls[i].length; j++) {
-
-				let start_index: number = (i * 16) + (pianorolls[i][j].start / tickDelta);
-				let end_index: number = start_index + (pianorolls[i][j].len / tickDelta);
+				let start_index: number = i * 16 + pianorolls[i][j].start / tickDelta;
+				let end_index: number = start_index + pianorolls[i][j].len / tickDelta;
 
 				for (let z = start_index; z < end_index; z++) {
-
 					patterns[z] = true;
-
 				}
 			}
 		}
 		maxPatternLength = Math.max(maxPatternLength, patterns.length);
 		allPatterns.push({ pattern: patterns, selected: false, index: index });
 	};
-
 
 	onMount(() => {
 		let instrument: string;
@@ -151,9 +137,7 @@
 			}
 			default:
 				instrument = 'Drum';
-
 		}
-
 
 		const selectedPatterns: pattern_type[] = getRandomSubset(
 			pattern_list.filter((p) => p.instrument_type === instrument),
@@ -167,7 +151,6 @@
 		for (const [index, p] of selectedPatterns.entries()) {
 			loadMidiFile(p.midi_src, index);
 		}
-
 
 		loaded = true;
 		start();
@@ -248,7 +231,6 @@
 					{repeats}
 					{time}
 					trackSource={base + '/audios/pattern_sounds/' + soundPath}
-					{tries}
 					{volume}
 				/>
 			</div>
