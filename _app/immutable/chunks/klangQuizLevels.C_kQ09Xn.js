@@ -1,1 +1,0 @@
-const e=[{difficulty:"einfach",instruments:4,sameCategory:!1},{difficulty:"mittel",instruments:6,sameCategory:!1},{difficulty:"schwer",instruments:3,sameCategory:!0},{difficulty:"schwer",instruments:8,sameCategory:!1}];export{e as k};
