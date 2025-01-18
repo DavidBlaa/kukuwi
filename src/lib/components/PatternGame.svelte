@@ -37,7 +37,6 @@
 
 	let time: number = $state(0);
 	let timeRunning: boolean = $state(true);
-	let tries: number = $state(0);
 	let repeats: number = $state(0);
 	let maxPatternLength: number = 0;
 
@@ -231,7 +230,6 @@
 				{repeats}
 				{time}
 				trackSource={base + '/audios/pattern_sounds/' + soundPath}
-				{tries}
 				{volume}
 			/>
 		</div>

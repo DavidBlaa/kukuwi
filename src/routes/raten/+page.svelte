@@ -2,9 +2,9 @@
 	import { gameRoundList } from '$lib/data/playtrough';
 	import GuessingGame from '$lib/components/GuessingGame.svelte';
 	import { onMount } from 'svelte';
-	import GameProgressBar from '$lib/components/GameProgressBar.svelte';
 	import PatternGame from '$lib/components/PatternGame.svelte';
 	import NameInput from '$lib/components/NameInput.svelte';
+	import TransitionScreen from '$lib/components/TransitionScreen.svelte';
 
 	const gameLength = gameRoundList.length;
 	let round = $state(1);
@@ -12,6 +12,7 @@
 	let gameFinished = $state(false);
 	let volume = $state(0.4);
 	let totalScore = $state(0);
+	let oldScore = $state(0);
 	let roundHistory: (boolean | undefined)[] = $state(Array(gameLength).fill(undefined));
 	let betweenRounds = $state(true);
 
@@ -27,6 +28,7 @@
 	}
 
 	function handleNextRound(roundScore: number) {
+		oldScore = totalScore;
 		totalScore += roundScore;
 		roundHistory[round - 1] = roundScore !== 0;
 
@@ -44,10 +46,7 @@
 
 <main class="h-screen w-screen bg-blue-200 p-5">
 	{#if betweenRounds}
-		<div class="flex size-full flex-col items-center justify-center gap-28">
-			<h1 class="text-9xl font-extrabold text-neutral-600">RUNDE {round}</h1>
-			<GameProgressBar {roundHistory} {round} />
-		</div>
+		<TransitionScreen {roundHistory} {round} {totalScore} {oldScore} />
 	{:else if gameRound.game === 'klangQuiz'}
 		<GuessingGame
 			difficulty={gameRound.difficulty}
