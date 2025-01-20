@@ -217,7 +217,7 @@
 					<Pattern
 						pattern_array={p.pattern}
 						bind:active={p.selected}
-						onmouseup={() => handlePatternClick(p.index)}
+						onmouseup={() => handleGuessButtonClick()}
 					/>
 				</div>
 			{/each}
@@ -233,14 +233,6 @@
 				{volume}
 			/>
 		</div>
-		<Button3d
-			bgBack="bg-amber-700"
-			bgFront="bg-amber-500"
-			onmousedown={() => handleGuessButtonClick()}
-			style="mt-3 text-3xl"
-		>
-			<p class="px-6 py-3">Raten</p>
-		</Button3d>
 	</div>
 	{#if roundEnded}
 		<div class="absolute left-0 top-0">
