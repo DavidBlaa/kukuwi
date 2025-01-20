@@ -28,6 +28,10 @@ export default {
 			},
 			gridTemplateColumns: {
 				'16': 'repeat(16, minmax(0, 1fr))'
+			},
+			screens: {
+				fhd: '1920px',
+				wqhd: '2560px'
 			}
 		}
 	},

@@ -3,14 +3,14 @@ import type { PatternLevel } from '$lib/types/types';
 export const patternLevels: PatternLevel[] = [
 	{
 		difficulty: 'einfach',
-		rows: 2
+		instrument_type: 'Piano'
 	},
 	{
 		difficulty: 'mittel',
-		rows: 3
+		instrument_type: 'Bass'
 	},
 	{
 		difficulty: 'schwer',
-		rows: 4
+		instrument_type: 'Drum'
 	}
 ];

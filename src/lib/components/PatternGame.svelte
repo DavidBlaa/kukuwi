@@ -8,7 +8,6 @@
 	import type { pattern_type } from '$lib/types/types';
 	import MusicControl from '$lib/components/MusicControl.svelte';
 	import GIF from '$lib/components/GIF.svelte';
-	import { patternLevels } from '$lib/data/patternLevels';
 	import Button3d from './Button3d.svelte';
 	import ResetButton from './ResetButton.svelte';
 
@@ -38,43 +37,110 @@
 
 	let time: number = $state(0);
 	let timeRunning: boolean = $state(true);
-	let tries: number = $state(0);
 	let repeats: number = $state(0);
+	let maxPatternLength: number = 0;
 
 	const loadMidiFile = async (midi_path: string, index: number) => {
 		const response = await fetch(base + '/midis/' + midi_path);
 		const arrayBuffer = await response.arrayBuffer();
 		const uintArr = new Uint8Array(arrayBuffer);
 		const parsed = midiManager.parseMidi(uintArr);
-		const tickDelta: number = 24;
-		const events: { [key: number]: number[] } = {};
-		const patterns: boolean[] = [];
-		let timeDelta: number = 0;
 
+		const events: { [key: number]: number[] } = {};
+		let patterns: boolean[] = [];
+		let timeDelta: number = 0;
+		let instrumentCount: number = 0;
+
+		// parse midi-events and convert to piano-roll style
 		for (const event of parsed.tracks[0]) {
 			timeDelta += event.deltaTime;
 			if (event.type === 'noteOn') {
 				if (!(event.noteNumber in events)) {
 					events[event.noteNumber] = [];
+					instrumentCount++;
 				}
+				events[event.noteNumber].push(timeDelta);
+			} else if (event.type === 'noteOff') {
 				events[event.noteNumber].push(timeDelta);
 			}
 		}
 
+		type typePianoroll = { start: number; len: number };
+
+		let pianorolls: typePianoroll[][] = [];
+
+		let len_min: number = 10000;
+		let maxStop: number = 0;
+
+		// get note start and length
 		for (const [, value] of Object.entries(events)) {
-			for (let t: number = 0; t < 16; t++) {
-				patterns.push(value.includes(t * tickDelta));
+			let pianoRoll: typePianoroll[] = [];
+			for (let i: number = 0; i < value.length; i += 2) {
+				let len: number = value[i + 1] - value[i];
+				len_min = Math.min(len_min, len);
+				maxStop = Math.max(maxStop, value[i + 1]);
+				pianoRoll.push({ start: value[i], len: len });
+			}
+
+			pianorolls.push(pianoRoll);
+		}
+
+		// calculate the tick-rate of track
+		let tickDelta: number = maxStop / 16;
+
+		const possibleTicks: number[] = [6, 12, 24, 48, 96];
+
+		if (!possibleTicks.includes(tickDelta)) {
+			for (let i = 0; i < possibleTicks.length; i++) {
+				if (tickDelta <= possibleTicks[i]) {
+					tickDelta = possibleTicks[i];
+					break;
+				}
 			}
 		}
 
+		//case if 3/4 notes are used
+		if (len_min % tickDelta !== 0) {
+			tickDelta = len_min;
+		}
+
+		// build array
+		pianorolls = pianorolls.reverse();
+
+		patterns = new Array(16 * instrumentCount).fill(false);
+
+		for (let i: number = 0; i < pianorolls.length; i++) {
+			for (let j = 0; j < pianorolls[i].length; j++) {
+				let start_index: number = i * 16 + pianorolls[i][j].start / tickDelta;
+				let end_index: number = start_index + pianorolls[i][j].len / tickDelta;
+
+				for (let z = start_index; z < end_index; z++) {
+					patterns[z] = true;
+				}
+			}
+		}
+		maxPatternLength = Math.max(maxPatternLength, patterns.length);
 		allPatterns.push({ pattern: patterns, selected: false, index: index });
 	};
 
 	onMount(() => {
-		const instrument = 'drum'; // TODO: Choose dynamicly if other instruments are added
-		const rows = patternLevels[difficulty - 1].rows;
+		let instrument: string;
+
+		switch (difficulty) {
+			case 1: {
+				instrument = 'Piano';
+				break;
+			}
+			case 2: {
+				instrument = 'Bass';
+				break;
+			}
+			default:
+				instrument = 'Drum';
+		}
+
 		const selectedPatterns: pattern_type[] = getRandomSubset(
-			pattern_list.filter((p) => p.instrument_type === instrument && p.n_instruments === rows),
+			pattern_list.filter((p) => p.instrument_type === instrument),
 			3
 		);
 
@@ -113,9 +179,23 @@
 	}
 
 	function handleGIFButtonClick(): void {
-		const roundScore = roundWon ? 1000 : 0; // TODO: Implement score calculate function
+		const roundScore = calculateScore();
 		handleNextRound(roundScore);
 		roundEnded = false;
+	}
+
+	function calculateScore(): number {
+		let score = 0;
+
+		if (roundWon) {
+			score += 10000;
+
+			score += Math.max(-236 * time + 8000, (2000 * 0.9) ^ time);
+
+			score += Math.max(-1234 * repeats + 5000, (2000 * 0.9) ^ repeats);
+		}
+
+		return score;
 	}
 
 	function start() {
@@ -127,34 +207,31 @@
 	}
 </script>
 
-<div class="flex h-full w-full flex-col items-center justify-center bg-blue-300">
-	<div
-		class="bg-s h-11/12 border-12 ml-2 flex w-11/12 flex-row justify-evenly rounded-2xl border-8 bg-gray-600 p-5"
-	>
-		<div class="flex basis-9/12 flex-col items-center justify-evenly">
-			{#if loaded}
-				{#each allPatterns as p}
-					<div class="h-full w-full basis-1/6">
-						<Pattern
-							pattern_array={p.pattern}
-							bind:active={p.selected}
-							onmouseup={() => handleGuessButtonClick()}
-						/>
-					</div>
-				{/each}
-			{/if}
-		</div>
-		<div class="flex basis-1/6 flex-col items-center">
-			<div class="h-5/6">
-				<MusicControl
-					bind:trackPaused
-					{repeats}
-					{time}
-					trackSource={base + '/audios/pattern_sounds/' + soundPath}
-					{tries}
-					{volume}
-				/>
-			</div>
+<div
+	class="flex size-full justify-between gap-4 rounded-2xl border-x-[7px] border-b-[14px] border-t-[7px] border-b-gray-600 border-l-gray-200 border-r-gray-400 border-t-gray-400 bg-[#d1d5db] p-3 shadow-2xl lg:border-x-[10px] lg:border-b-[20px] lg:border-t-[10px] lg:p-10"
+>
+	<div class="flex basis-9/12 flex-col items-center justify-evenly">
+		{#if loaded}
+			{#each allPatterns as p}
+				<div class="h-full w-full basis-1/6">
+					<Pattern
+						pattern_array={p.pattern}
+						bind:active={p.selected}
+						onmouseup={() => handleGuessButtonClick()}
+					/>
+				</div>
+			{/each}
+		{/if}
+	</div>
+	<div class="flex basis-1/6 flex-col items-center">
+		<div class="h-5/6">
+			<MusicControl
+				bind:trackPaused
+				{repeats}
+				{time}
+				trackSource={base + '/audios/pattern_sounds/' + soundPath}
+				{volume}
+			/>
 		</div>
 	</div>
 	{#if roundEnded}
@@ -169,4 +246,7 @@
 			/>
 		</div>
 	{/if}
+</div>
+<div class="absolute left-6 top-0 m-3 mt-10">
+	<ResetButton></ResetButton>
 </div>

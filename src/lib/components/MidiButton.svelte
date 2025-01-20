@@ -29,7 +29,7 @@
 		active_color_top = 'bg-blue-400',
 		active_color_bottom = '[box-shadow:0_10px_0_0_#4e81bf,0_15px_0_0_#1b70f841]',
 		passiv_color_top = 'bg-blue-100',
-		passiv_color_bottom = '[box-shadow:0_10px_0_0_#b0b1b5,0_15px_0_0_#1b70f841]',
+		passiv_color_bottom = 'bg-gray-400',
 		use_audio = true,
 		use_header = true,
 		volume = 0.5
@@ -44,25 +44,26 @@
 	}
 </script>
 
-<div class="flex h-full flex-col">
-	{#if use_header}
-		<p
-			class="flex w-fit flex-col items-start justify-center px-1 text-xs lg:text-xl {is_active
-				? active_color_top
-				: passiv_color_top} mb-1 rounded-sm font-bold"
-		>
-			{name}
-		</p>
-	{/if}
-	<Button3d
-		{onmouseup}
-		bgFront={is_active ? active_color_top : passiv_color_top}
-		bgBack={is_active ? active_color_bottom : passiv_color_bottom}
+{#if use_header}
+	<p
+		class="w-fit px-1 text-xs lg:text-xl {is_active
+			? active_color_top
+			: passiv_color_top} mb-2 rounded-sm font-bold lg:mb-3"
 	>
-		<Icon src={img_url} className="" />
-		{#if use_audio}
-			<audio src={audio_url} bind:paused {volume} onended={() => handle_music_tile_click(true)}
-			></audio>
-		{/if}
-	</Button3d>
-</div>
+		{name}
+	</p>
+{/if}
+<Button3d
+	{onmouseup}
+	bgFront={is_active ? active_color_top : passiv_color_top}
+	bgBack={is_active ? active_color_bottom : passiv_color_bottom}
+	style="flex w-full"
+	padding="w-full"
+	translateY="lg:translate-y-[-0.7rem] translate-y-[-0.4rem]"
+>
+	<Icon src={img_url} className="w-full" />
+	{#if use_audio}
+		<audio src={audio_url} bind:paused {volume} onended={() => handle_music_tile_click(true)}
+		></audio>
+	{/if}
+</Button3d>

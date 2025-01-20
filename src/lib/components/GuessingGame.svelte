@@ -30,7 +30,6 @@
 
 	let time = $state(0);
 	let timeRunning = $state(true);
-	let tries = $state(0);
 	let repeats = $state(0);
 
 	let usedInstruments = $state<KlangQuizInstrument[]>();
@@ -61,9 +60,23 @@
 	}
 
 	function handleGIFButtonClick(): void {
-		const roundScore = roundWon ? 1000 : 0; // TODO: Implement score calculate function
+		let roundScore = calculateScore();
 		handleNextRound(roundScore);
 		roundEnded = false;
+	}
+
+	function calculateScore(): number {
+		let score = 0;
+
+		if (roundWon) {
+			score += 10000;
+
+			score += Math.max(-416 * time + 8000, (2000 * 0.9) ^ time);
+
+			score += Math.max(-1234 * repeats + 5000, (2000 * 0.9) ^ repeats);
+		}
+
+		return score;
 	}
 
 	function start() {
@@ -79,24 +92,18 @@
 
 {#if usedInstruments}
 	<div
-		class="[rotate-y-20deg] flex size-full justify-evenly rounded-2xl border-x-[10px] border-b-[20px] border-t-[10px] border-b-gray-600 border-l-gray-200 border-r-gray-400 border-t-gray-400 bg-[#d1d5db] p-3 shadow-2xl lg:p-10"
+		class="flex size-full justify-between gap-4 rounded-2xl border-x-[7px] border-b-[14px] border-t-[7px] border-b-gray-600 border-l-gray-200 border-r-gray-400 border-t-gray-400 bg-[#d1d5db] p-3 shadow-2xl lg:border-x-[10px] lg:border-b-[20px] lg:border-t-[10px] lg:p-10"
 	>
-		<div class="basis-2/12">
-			<MusicControl {time} {trackSource} {volume} bind:trackPaused {tries} {repeats} />
-		</div>
-		<div class="basis-8/12">
-			<MidiBoardGrid
-				{volume}
-				{activeTileList}
-				{pauseTileList}
-				useTileSounds={false}
-				instruments={usedInstruments}
-				onmouseup={handleInstrumentButtonClick}
-			/>
-		</div>
-		<div class="basis-1/12">
-			<SoundControl bind:volume />
-		</div>
+		<MusicControl {time} {trackSource} {volume} bind:trackPaused {repeats} />
+		<MidiBoardGrid
+			{volume}
+			{activeTileList}
+			{pauseTileList}
+			useTileSounds={false}
+			instruments={usedInstruments}
+			onmouseup={handleInstrumentButtonClick}
+		/>
+		<SoundControl bind:volume />
 		{#if roundEnded}
 			<div class="absolute left-0 top-0">
 				<GIF

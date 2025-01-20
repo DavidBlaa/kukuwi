@@ -26,7 +26,7 @@
 </script>
 
 {#if difficulty}
-	<main class="h-screen w-screen bg-blue-200 p-5">
+	<main class="fhd:p-5 h-screen w-screen bg-blue-200 p-3">
 		{#key round}
 			<GuessingGame
 				difficulty={parseInt(difficulty)}
