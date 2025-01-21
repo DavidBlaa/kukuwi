@@ -1,7 +1,7 @@
 <script lang="ts">
 	import MemoryCard from '$lib/components/MemoryCard.svelte';
 	import { onMount } from 'svelte';
-	import { memoryCardsData } from '$lib/data/memoryCards';
+	import { memoryCardsData } from '$lib/data/MemoryCards';
 	import { shuffleArray } from '$lib/utils/helperfunctions';
 	import { getRandomIndex, getRandomSubset } from '$lib/utils/helperfunctions.js';
 	import GIF from '$lib/components/GIF.svelte';
