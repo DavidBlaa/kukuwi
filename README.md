@@ -1,12 +1,11 @@
 # Instrumente-Rate-Spiel
 
-
 ![KuKuWi](static/images/logo_name.png)
 
-
-This project was developed for the "Kunst, Kultur und Wissenschaft"  (KuKuWi) initiative by Klanggerüst e.V. Its goal is to make music an engaging experience and promote understanding of sounds, instruments, and musical patterns.
+This project was developed for the "Kunst, Kultur und Wissenschaft" (KuKuWi) initiative by Klanggerüst e.V. Its goal is to make music an engaging experience and promote understanding of sounds, instruments, and musical patterns.
 
 ## Game Modes
+
 The project currently offers the following game modes:
 
 1. **Identify Instruments:**
@@ -59,6 +58,7 @@ npm run dev
 ```
 
 #### Notes on MIDI Files:
+
 - More than 6 different tones are not recommended.
 - Ideally, use four measures.
 - Notes such as 3/4, 5/6, etc., may cause issues with MIDI parsing.
@@ -66,7 +66,7 @@ npm run dev
 ### Genre Memory
 
 1. Place audio file(s) in [./static/audios/](#).
-2. Extend the JSON in [./src/lib/data/MemoryCards.ts](src/lib/data/MemoryCards.ts) as follows:
+2. Extend the JSON in [./src/lib/data/memoryCards.ts](src/lib/data/memoryCards.ts) as follows:
 
 ```javascript
 {
@@ -86,5 +86,5 @@ npm run dev
 - Layout shifts may happen when using screen resolutions other than 1080p.
 
 ## License
-This project is licensed under the **Apache License 2.0**. [LICENSE](./LICENSE).
 
+This project is licensed under the **Apache License 2.0**. [LICENSE](./LICENSE).

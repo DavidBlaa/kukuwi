@@ -1,6 +1,6 @@
 import type { MemoryCard } from '$lib/types/types';
 
-export const MemoryCardsData: MemoryCard[] = [
+export const memoryCardsData: MemoryCard[] = [
 	{
 		genre: 'Jazz',
 		audioPaths: ['Drums - Jazz Break 125 bpm.mp3']

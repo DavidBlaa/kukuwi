@@ -1,7 +1,7 @@
 <script lang="ts">
 	import MemoryCard from '$lib/components/MemoryCard.svelte';
 	import { onMount } from 'svelte';
-	import { MemoryCardsData } from '$lib/data/memoryCards';
+	import { memoryCardsData } from '$lib/data/memoryCards';
 	import { shuffleArray } from '$lib/utils/helperfunctions';
 	import { getRandomIndex, getRandomSubset } from '$lib/utils/helperfunctions.js';
 	import GIF from '$lib/components/GIF.svelte';
@@ -39,7 +39,7 @@
 		const difficulty = parseInt(difficultyParam);
 		const pairs = genreLevels[difficulty - 1].pairs;
 
-		for (const element of getRandomSubset(MemoryCardsData, pairs)) {
+		for (const element of getRandomSubset(memoryCardsData, pairs)) {
 			cards.push({
 				index: -1,
 				genre: element.genre,
