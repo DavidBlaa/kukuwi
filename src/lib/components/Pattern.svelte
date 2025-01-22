@@ -29,9 +29,7 @@
 </script>
 
 <button
-	class=" grid h-full w-full grid-cols-16 flex-row border-4 {active
-		? 'border-blue-600 shadow-2xl shadow-blue-600 '
-		: 'border-gray-500'} rounded"
+	class=" grid h-full w-full grid-cols-16 flex-row rounded border-4 border-gray-500 hover:ring-blue-500"
 	{onmouseup}
 >
 	{#each color_array as c}
