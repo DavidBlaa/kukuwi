@@ -10,6 +10,7 @@
 	import { page } from '$app/stores';
 	import { error } from '@sveltejs/kit';
 	import { genreLevels } from '$lib/data/genreLevels';
+	import ResetButton from '$lib/components/ResetButton.svelte';
 
 	let cards: {
 		genre: string;
@@ -112,7 +113,7 @@
 </script>
 
 <div class="flex h-screen w-screen flex-col items-center justify-center justify-items-center">
-	<div class="grid h-fit w-fit grid-cols-4 gap-5 rounded-xl bg-gray-300 p-8">
+	<div class="relative grid h-fit w-fit grid-cols-4 gap-5 rounded-xl bg-gray-300 px-20 py-8">
 		{#each cards as c}
 			<MemoryCard
 				isRotated={c.isRotated}
@@ -122,6 +123,9 @@
 				finished={c.finished}
 			/>
 		{/each}
+		<div class="absolute left-0 top-0 m-3">
+			<ResetButton />
+		</div>
 	</div>
 	{#if done}
 		<div class="absolute left-0 top-0">

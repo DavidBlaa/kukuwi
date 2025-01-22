@@ -8,19 +8,25 @@
 		bgFront: string;
 		bgBack: string;
 		onclick: () => void;
+		style?: string;
+		textstyle?: string;
+		imagestyle?: string;
 	};
 
-	let { text, image, bgFront, bgBack, onclick }: MenuCardProps = $props();
+	let { text, image, bgFront, bgBack, onclick, style, textstyle, imagestyle }: MenuCardProps =
+		$props();
 </script>
 
 <Button3d
 	{bgFront}
 	{bgBack}
 	{onclick}
-	style="flex flex-col items-center justify-center w-40 sm:w-52 md:w-56 lg:w-64 xl:w-80"
+	style="flex flex-col items-center justify-center w-48 h-48 sm:w-60 sm:h-60 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-88 xl:h-88"
 	padding="p-4"
 	translateY="translate-y-[-0.7rem]"
 >
-	<img src={base + image.src} alt={image.alt} class="w-full" />
-	<p class="mt-1 text-center text-4xl font-extrabold text-white">{text}</p>
+	<div class="flex items-center justify-center">
+		<img src={base + image.src} alt={image.alt} class={`object-contain ${imagestyle}`} />
+	</div>
+	<p class={`text-center text-4xl font-extrabold text-white ${textstyle}`}>{text}</p>
 </Button3d>
