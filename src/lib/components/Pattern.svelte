@@ -2,11 +2,13 @@
 	let {
 		pattern_array,
 		active = $bindable(false),
-		onmouseup
+		onmouseup,
+		onmousedown
 	}: {
 		pattern_array: boolean[];
 		active: boolean;
 		onmouseup: (...args: any[]) => any;
+		onmousedown?: (...args: any[]) => any;
 	} = $props();
 
 	const color_array: string[] = $state([]);
@@ -31,6 +33,7 @@
 <button
 	class=" grid h-full w-full grid-cols-16 flex-row rounded border-4 border-gray-500 hover:ring-blue-500"
 	{onmouseup}
+	{onmousedown}
 >
 	{#each color_array as c}
 		<div class="h-full {c} border border-black"></div>
