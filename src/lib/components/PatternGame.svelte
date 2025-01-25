@@ -168,9 +168,6 @@
 		allPatterns.forEach((p) => {
 			p.selected = p.index === index;
 		});
-	}
-
-	function handleGuessButtonClick() {
 		roundWon = correctIndex === selectedIndex;
 		timeRunning = false;
 		trackPaused = true;
@@ -217,7 +214,7 @@
 					<Pattern
 						pattern_array={p.pattern}
 						bind:active={p.selected}
-						onmouseup={() => handleGuessButtonClick()}
+						onmouseup={() => handlePatternClick(p.index)}
 					/>
 				</div>
 			{/each}
