@@ -1,12 +1,15 @@
 <script lang="ts">
 	import MemoryCard from '$lib/components/MemoryCard.svelte';
 	import { onMount } from 'svelte';
-	import { MemoryCardsData } from '$lib/data/MemoryCards';
+	import { memoryCardsData } from '$lib/data/MemoryCards';
 	import { shuffleArray } from '$lib/utils/helperfunctions';
 	import { getRandomIndex, getRandomSubset } from '$lib/utils/helperfunctions.js';
 	import GIF from '$lib/components/GIF.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { page } from '$app/stores';
+	import { error } from '@sveltejs/kit';
+	import { genreLevels } from '$lib/data/genreLevels';
 	import ResetButton from '$lib/components/ResetButton.svelte';
 
 	let cards: {
@@ -30,7 +33,14 @@
 	}
 
 	onMount(() => {
-		for (const element of getRandomSubset(MemoryCardsData, 4)) {
+		const difficultyParam = $page.url.searchParams.get('difficulty');
+		if (difficultyParam === null) {
+			error(404, { message: 'No difficulty defined in search params.' });
+		}
+		const difficulty = parseInt(difficultyParam);
+		const pairs = genreLevels[difficulty - 1].pairs;
+
+		for (const element of getRandomSubset(memoryCardsData, pairs)) {
 			cards.push({
 				index: -1,
 				genre: element.genre,
@@ -103,7 +113,7 @@
 </script>
 
 <div class="flex h-screen w-screen flex-col items-center justify-center justify-items-center">
-	<div class="relative grid h-fit w-fit grid-cols-4 gap-5 rounded-xl bg-gray-300 p-20">
+	<div class="relative grid h-fit w-fit grid-cols-4 gap-5 rounded-xl bg-gray-300 px-20 py-8">
 		{#each cards as c}
 			<MemoryCard
 				isRotated={c.isRotated}

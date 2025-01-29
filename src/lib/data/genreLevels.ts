@@ -3,14 +3,14 @@ import type { GenreLevel } from '$lib/types/types';
 export const genreLevels: GenreLevel[] = [
 	{
 		difficulty: 'einfach',
-        pairs: 2
+		pairs: 4
 	},
 	{
 		difficulty: 'mittel',
-        pairs: 3
+		pairs: 6
 	},
 	{
 		difficulty: 'schwer',
-        pairs: 4
+		pairs: 8
 	}
 ];
