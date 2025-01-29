@@ -1,0 +1,1 @@
+import{s as r,H as t}from"./6YAFCxBX.js";const o=()=>{const s=r;return{page:{subscribe:s.page.subscribe},navigating:{subscribe:s.navigating.subscribe},updated:s.updated}},a={subscribe(s){return o().page.subscribe(s)}};function b(s,e){throw new t(s,e)}new TextEncoder;export{b as e,a as p};
